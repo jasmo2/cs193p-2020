@@ -11,16 +11,16 @@ func createCardContent(pairIndex: Int) -> String {
   return "🤭"
 }
 
-class EmojiMemoryGame {
+class EmojiMemoryGame: ObservableObject {
   //Glass Door
   //  private(set) var model: MemoryGame<String>
-  private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
+  @Published private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
   
   static func createMemoryGame()-> MemoryGame<String> {
     let emojis = ["👻", "🎃", "🕷️"]
     return MemoryGame<String>(numberOfPairOfCards: emojis.count) { pairIndex in emojis[pairIndex]}
   }
-  
+    
   // MARK: - Access to Model
   // video intercom
   var cards: Array<MemoryGame<String>.Card> {
