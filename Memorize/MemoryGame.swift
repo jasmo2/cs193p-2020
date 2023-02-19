@@ -9,8 +9,23 @@ import Foundation
 struct MemoryGame<CardContent> {
   var cards: Array<Card>
   
-  func choose(card: Card) {
+  //Is a copy from the array data sctructure
+  mutating func choose(card: Card) {
     print("card chosen: \(card)")
+//    let chosenIndex: Int = cards.index(of: card)
+    let chosenIndex: Int = index(of: card)
+    cards[chosenIndex].isFacedUP = !cards[chosenIndex].isFacedUP
+    
+    
+  }
+  
+  func index(of card: Card) -> Int {
+    for index in 0..<cards.count {
+      if cards[index].id == card.id {
+        return index
+      }
+    }
+    return -1 // TODO: bogus!
   }
   
   init(numberOfPairOfCards: Int, cardContentFactory: (Int) -> CardContent) {

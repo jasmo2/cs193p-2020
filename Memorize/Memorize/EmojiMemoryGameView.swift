@@ -14,34 +14,51 @@ struct EmojiMemoryGameView: View {
     return HStack(){
       ForEach(viewModel.cards) { card in
         CardView(card: card).onTapGesture {
-          perform: do {
-            viewModel.choose(card: card)
-          }
+        perform: do {
+          viewModel.choose(card: card)
+        }
         }
       }
       
     }
     .padding()
     .foregroundColor(Color.orange)
-    .font(Font.largeTitle)
     
   }
 }
 
 struct CardView: View {
+  // MARK: - Drawing Constants
+  let cornerRadius: CGFloat = 10
+  let edgeLineWidth : CGFloat = 3
+  let fontScaleFactor: CGFloat = 0.75
+  
   var card: MemoryGame<String>.Card
   
-  
   var body: some View {
-    return ZStack() {
+    GeometryReader { geometry in
+      self.body(for: geometry.size)
+    }
+    
+  }
+  
+  func body(for size: CGSize) -> some View {
+    ZStack() {
       if card.isFacedUP {
-        RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
-        RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3)
+        RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
+        RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
         Text(card.content)
       } else {
-        RoundedRectangle(cornerRadius: 10.0).fill(Color.orange)
+        RoundedRectangle(cornerRadius: cornerRadius).fill(Color.orange)
       }
     }
+    .font(
+      Font.system(size: fontSize(for: size))
+    )
+  }
+
+  func fontSize(for size: CGSize) -> CGFloat {
+    min(size.width, size.height) * fontScaleFactor
   }
 }
 //    var body: some View {
@@ -52,11 +69,7 @@ struct CardView: View {
 //            Text("Hello there, world!")
 //        }
 //        .padding()
-//    }
-
-
-
-
+//   }
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
@@ -64,3 +77,9 @@ struct ContentView_Previews: PreviewProvider {
     EmojiMemoryGameView(viewModel: game)
   }
 }
+
+
+
+
+
+
