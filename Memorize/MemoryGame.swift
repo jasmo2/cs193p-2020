@@ -6,26 +6,41 @@
 //
 
 import Foundation
-struct MemoryGame<CardContent> {
+struct MemoryGame<CardContent> where CardContent: Equatable {
   var cards: Array<Card>
+  var indexOfTheOneAndOnlyFaceUpCard: Int? {
+    get {
+      cards.indices.filter{ index in
+        cards[index].isFacedUP
+      }.only
+    }
+    set {
+      for index in cards.indices{
+        cards[index].isFacedUP = index == newValue
+      }
+    }
+  }
+  
+//  static func == (Self, Self) -> Bool
+
   
   //Is a copy from the array data sctructure
   mutating func choose(card: Card) {
-    print("card chosen: \(card)")
-//    let chosenIndex: Int = cards.index(of: card)
-    let chosenIndex: Int = index(of: card)
-    cards[chosenIndex].isFacedUP = !cards[chosenIndex].isFacedUP
-    
-    
-  }
   
-  func index(of card: Card) -> Int {
-    for index in 0..<cards.count {
-      if cards[index].id == card.id {
-        return index
+//    let chosenIndex: Int = cards.index(of: card)
+    if let chosenIndex = cards.firstIndex(matching: card), !cards[chosenIndex].isFacedUP, !cards[chosenIndex].isMatched {
+      if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
+      
+        if cards[chosenIndex].content == cards[potentialMatchIndex].content {
+          cards[chosenIndex].isMatched = true
+          cards[potentialMatchIndex].isMatched = true
+        }
+        cards[chosenIndex].isFacedUP = true
+      } else {
+        indexOfTheOneAndOnlyFaceUpCard = chosenIndex
       }
+      
     }
-    return -1 // TODO: bogus!
   }
   
   init(numberOfPairOfCards: Int, cardContentFactory: (Int) -> CardContent) {
@@ -40,7 +55,7 @@ struct MemoryGame<CardContent> {
   }
   
   struct Card: Identifiable {
-    var isFacedUP: Bool = true
+    var isFacedUP: Bool = false
     var isMatched: Bool = false
     var content: CardContent
     var id: Int
