@@ -7,8 +7,9 @@
 
 import Foundation
 struct MemoryGame<CardContent> where CardContent: Equatable {
-  var cards: Array<Card>
-  var indexOfTheOneAndOnlyFaceUpCard: Int? {
+  private(set) var cards: Array<Card>
+  
+  private var indexOfTheOneAndOnlyFaceUpCard: Int? {
     get {
       cards.indices.filter{ index in
         cards[index].isFacedUP
@@ -21,13 +22,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     }
   }
   
-//  static func == (Self, Self) -> Bool
-
-  
   //Is a copy from the array data sctructure
   mutating func choose(card: Card) {
   
-//    let chosenIndex: Int = cards.index(of: card)
     if let chosenIndex = cards.firstIndex(matching: card), !cards[chosenIndex].isFacedUP, !cards[chosenIndex].isMatched {
       if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
       

@@ -22,19 +22,6 @@ struct EmojiMemoryGameView: View {
     .padding()
     .foregroundColor(Color.orange)
     
-//    return HStack(){
-//      ForEach(viewModel.cards) { card in
-//        CardView(card: card).onTapGesture {
-//        perform: do {
-//          viewModel.choose(card: card)
-//        }
-//        }
-//      }
-//
-//    }
-//    .padding()
-//    .foregroundColor(Color.orange)
-    
   }
 }
 
@@ -58,6 +45,8 @@ struct CardView: View {
       if card.isFacedUP {
         RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
         RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
+        Pie(startAngel: Angle.degrees(0-90), endAngel: Angle.degrees(110-90), clockwise: true)
+          .opacity(0.4).padding(5)
         Text(card.content)
       } else if !card.isMatched{
           RoundedRectangle(cornerRadius: cornerRadius).fill(Color.orange)
@@ -72,20 +61,12 @@ struct CardView: View {
     min(size.width, size.height) * fontScaleFactor
   }
 }
-//    var body: some View {
-//        VStack {
-//            Image(systemName: "globe")
-//                .imageScale(.large)
-//                .foregroundColor(.accentColor)
-//            Text("Hello there, world!")
-//        }
-//        .padding()
-//   }
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     let game = EmojiMemoryGame()
-    EmojiMemoryGameView(viewModel: game)
+    game.choose(card: game.cards[0])
+    return EmojiMemoryGameView(viewModel: game)
   }
 }
 
