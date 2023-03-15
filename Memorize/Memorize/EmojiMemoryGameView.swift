@@ -14,9 +14,9 @@ struct EmojiMemoryGameView: View {
     
     GridStruct(items: viewModel.cards) { card in
       CardView(card: card).onTapGesture {
-        perform: do {
-          viewModel.choose(card: card)
-        }
+      perform: do {
+        viewModel.choose(card: card)
+      }
       }.padding(5)
     }
     .padding()
@@ -27,8 +27,6 @@ struct EmojiMemoryGameView: View {
 
 struct CardView: View {
   // MARK: - Drawing Constants
-  let cornerRadius: CGFloat = 10
-  let edgeLineWidth : CGFloat = 3
   let fontScaleFactor: CGFloat = 0.75
   
   var card: MemoryGame<String>.Card
@@ -39,24 +37,20 @@ struct CardView: View {
     }
     
   }
-  
+
+  @ViewBuilder
   func body(for size: CGSize) -> some View {
-    ZStack() {
-      if card.isFacedUP {
-        RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
-        RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
+      ZStack {
         Pie(startAngel: Angle.degrees(0-90), endAngel: Angle.degrees(110-90), clockwise: true)
           .opacity(0.4).padding(5)
         Text(card.content)
-      } else if !card.isMatched{
-          RoundedRectangle(cornerRadius: cornerRadius).fill(Color.orange)
+          .font(
+            Font.system(size: fontSize(for: size))
+          )
       }
-    }
-    .font(
-      Font.system(size: fontSize(for: size))
-    )
+      .cardify(isFacedUp: card.isFacedUp)
   }
-
+  
   func fontSize(for size: CGSize) -> CGFloat {
     min(size.width, size.height) * fontScaleFactor
   }
