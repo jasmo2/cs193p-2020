@@ -68,9 +68,9 @@
 		74C936B7299E62150047D683 /* Memorize */ = {
 			isa = PBXGroup;
 			children = (
+				746BB8FA29BF626900015F73 /* Pie.swift */,
 				743A536629BFFFC1005B2251 /* Info.plist */,
 				746BB8FC29BFAD6A00015F73 /* Cardify.swift */,
-				746BB8FA29BF626900015F73 /* Pie.swift */,
 				744B814729A5048700E9ABA0 /* Array+Only.swift */,
 				744B814529A4042900E9ABA0 /* Array+Identifiable.swift */,
 				74C936C6299FB7960047D683 /* MemoryGame.swift */,

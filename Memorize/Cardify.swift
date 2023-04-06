@@ -7,20 +7,38 @@
 
 import SwiftUI
 
-struct Cardify: ViewModifier {
-  var isFacedUp: Bool
+struct Cardify: AnimatableModifier {
+  var rotation: Double
+  
+  init(isFacedUp: Bool) {
+    rotation = isFacedUp ? 0 : 180
+  }
+  
+  var isFacedUp: Bool {
+    rotation < 90
+  }
+  
+  var animatableData: Double {
+    get {return rotation }
+    set {rotation = newValue}
+  }
   
   func body(content: Content) -> some View {
     ZStack {
-      if isFacedUp {
+      Group { 
         RoundedRectangle(cornerRadius: cornerRadius).fill(Color.white)
         RoundedRectangle(cornerRadius: cornerRadius).stroke(lineWidth: edgeLineWidth)
         content
-      } else {
-        //if !card.isMatched{
-        RoundedRectangle(cornerRadius: cornerRadius).fill(Color.orange)
-      }
+      } .opacity(isFacedUp ? 1 : 0)
+      
+      RoundedRectangle(cornerRadius: cornerRadius).fill(Color.orange)
+        .opacity(isFacedUp ? 0 : 1)
+      
     }
+    .rotation3DEffect(
+      Angle.degrees(rotation),
+      axis: (x: 0.0, y: 1.0, z: 0.0)
+    )
   }
   // MARK: - Drawing Constants
   let cornerRadius: CGFloat = 10
