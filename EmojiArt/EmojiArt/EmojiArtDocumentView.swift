@@ -10,7 +10,6 @@ import SwiftUI
 struct EmojiArtDocumentView: View {
 //    @ObservedObject var document: EmojiArtDocument
   
-    
     var body: some View {
       ScrollView(Axis.Set.horizontal) {
         HStack {
@@ -22,6 +21,7 @@ struct EmojiArtDocumentView: View {
       }
       .padding(.horizontal)
       Rectangle().foregroundColor(.yellow)
+        .edgesIgnoringSafeArea([Edge.Set.horizontal, .bottom])
     }
   
   private let defaultEmojiSize: CGFloat = 40.0
