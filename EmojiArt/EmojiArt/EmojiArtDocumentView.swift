@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct EmojiArtDocumentView: View {
-//    @ObservedObject var document: EmojiArtDocument
+    @ObservedObject var document: EmojiArtDocument
+    
   
     var body: some View {
       ScrollView(Axis.Set.horizontal) {
@@ -22,7 +23,21 @@ struct EmojiArtDocumentView: View {
       .padding(.horizontal)
       Rectangle().foregroundColor(.yellow)
         .edgesIgnoringSafeArea([Edge.Set.horizontal, .bottom])
+        .onDrop(of: ["public.image"], isTargeted: nil) {
+          providers, location in
+          return drop(providers: providers)
+        }
     }
+  
+  private func drop(providers: [NSItemProvider]) -> Bool {
+    let found = providers.loadFirstObject(ofType: URL.self) { url in
+        print("dropped \(url)")
+      
+      document.setBackgroundUrl(url: url)
+    }
+    
+    return found
+  }
   
   private let defaultEmojiSize: CGFloat = 40.0
 }

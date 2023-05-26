@@ -31,6 +31,6 @@ struct EmojiArt {
   
   mutating func addEmoji(_ text: String, x: Int, y: Int, size: Int){
     uniqueEmojiId += 1
-    emojis.append(Emoji( text: text, y: y, x: x, size: size, id: uniqueEmojiId))
+    emojis.append(Emoji( text: text, x: x, y: y, size: size, id: uniqueEmojiId))
   }
 }
